@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-k*a1ld($jly^ng=mqb83+b2-r*k^^q!xa=_0cv76q4lua+#^v-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ec2-54-226-60-122.compute-1.amazonaws.com']
+ALLOWED_HOSTS = ['*']
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
