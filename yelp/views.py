@@ -23,12 +23,14 @@ def yelp(request):
 # /yelp/businesses/{location}
 #return businesses within specified vicinity
 def businesses(request):
+    #hardcoded glassboro zip for testing
+    location = "08028"
     parameters = {
-        'location':"New York City",
+        'location':location,
         'radius':40000
         }
     try:    
-        response = requests.get(url=url, headers=myHeaders, params=parameters)
+        response = requests.get(url=url + "search", headers=myHeaders, params=parameters)
         data = response.json()
 
         #text used to display entire json object
