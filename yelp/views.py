@@ -31,6 +31,10 @@ def businesses(request, location):
                 new_business.save()
                 print(business['id'] + " Added to Database!")
 
+        #text used to display entire json object
+        text = json.dumps(data['businesses'], sort_keys=True, indent=5)
+        return HttpResponse(text)
+
         return(data['businesses'])
         
     except requests.exceptions.HTTPError as error:
@@ -43,8 +47,12 @@ def business(request, id):
     try:    
         response = requests.get(url=url + id, headers=myHeaders)
         data = response.json()
-
-        return data
+        
+        #text used to display entire json object
+        text = json.dumps(data, sort_keys=True, indent=5)
+        return HttpResponse(text)
+        
+        #return data
         
     except requests.exceptions.HTTPError as error:
         print(error)
@@ -57,8 +65,12 @@ def reviews(request, id):
     try:    
         response = requests.get(url=url + id + "/reviews", headers=myHeaders)
         data = response.json()
-
-        return data
+        
+        #text used to display entire json object
+        text = json.dumps(data, sort_keys=True, indent=5)
+        return HttpResponse(text)
+        
+        #return data
         
     except requests.exceptions.HTTPError as error:
         print(error)
