@@ -1,3 +1,4 @@
 from django.db import models
 
-# Create your models here.
+class Business(models.Model):
+    business_id = models.CharField(max_length=200)

@@ -2,12 +2,15 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import requests
 import json
+from .models import Business
+import os
 
-myHeaders = {'Authorization' : 'Bearer pO6GuQayXawfmMhK_h_FUJgj67BXZUFYe0kcBhLmLxYUNu6tJxF_AXJyTSejnKpxfcjrcpwTuw22iAMw7u8ng5xc6gGyaf6hBkZd-IE7h3epMY7cdogc8r_j2l9XYXYx'}
+myHeaders = {'Authorization' : os.environ['yelpKey']}
 url = "https://api.yelp.com/v3/businesses/"
 
 # /yelp/businesses/{location}
 #return businesses within specified vicinity
+#TODO change lines 31-33 for mysql databse in prod
 def businesses(request, location):
 
     parameters = {
@@ -19,11 +22,16 @@ def businesses(request, location):
         response = requests.get(url=url + "search", headers=myHeaders, params=parameters)
         data = response.json()
 
-        #text used to display entire json object
-        text = json.dumps(data, sort_keys=True, indent=5)
-        return HttpResponse(text)
+        for business in data['businesses']:
+            try:
+                Business.objects.get(business_id=business['id'])
+                print(business['id'] + " Already in Database!")
+            except Exception as e:
+                new_business = Business(business_id=business['id'])  # create a new Business Object
+                new_business.save()
+                print(business['id'] + " Added to Database!")
 
-        #return HttpResponse(data)
+        return(data['businesses'])
         
     except requests.exceptions.HTTPError as error:
         print(error)
@@ -35,10 +43,8 @@ def business(request, id):
     try:    
         response = requests.get(url=url + id, headers=myHeaders)
         data = response.json()
-        #text used to display entire json object
-        text = json.dumps(data, sort_keys=True, indent=5)
-        return HttpResponse(text)
-        #return data
+
+        return data
         
     except requests.exceptions.HTTPError as error:
         print(error)
@@ -51,10 +57,8 @@ def reviews(request, id):
     try:    
         response = requests.get(url=url + id + "/reviews", headers=myHeaders)
         data = response.json()
-        #text used to display entire json object
-        text = json.dumps(data, sort_keys=True, indent=5)
-        return HttpResponse(text)
-        #return data
+
+        return data
         
     except requests.exceptions.HTTPError as error:
         print(error)
