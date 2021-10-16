@@ -5,7 +5,7 @@ import json
 from .models import Business
 import os
 
-myHeaders = {'Authorization' : os.environ['yelpKey']}
+myHeaders = {'Authorization' :  Bearer pO6GuQayXawfmMhK_h_FUJgj67BXZUFYe0kcBhLmLxYUNu6tJxF_AXJyTSejnKpxfcjrcpwTuw22iAMw7u8ng5xc6gGyaf6hBkZd-IE7h3epMY7cdogc8r_j2l9XYXYx}
 url = "https://api.yelp.com/v3/businesses/"
 
 # /yelp/businesses/{location}
